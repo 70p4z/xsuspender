@@ -71,7 +71,7 @@ windows_are_same_process (WnckWindow *w1,
             WNCK_IS_WINDOW (w2) &&
             wnck_window_get_pid (w1) == wnck_window_get_pid (w2) &&
             (rule = xsus_window_get_rule (w1)) &&
-            rule->send_signals &&
+            //rule->send_signals &&
             rule == xsus_window_get_rule (w2));
 }
 

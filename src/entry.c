@@ -43,7 +43,7 @@ xsus_entry_find_for_window_rule (WnckWindow *window,
                                  GSList *list)
 {
     // If suspending by signals, find entry by PID ...
-    if (rule->send_signals) {
+    if (1 || rule->send_signals) {
         pid_t pid = wnck_window_get_pid (window);
         for (; list; list = list->next) {
             WindowEntry *entry = list->data;
