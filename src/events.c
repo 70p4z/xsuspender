@@ -139,6 +139,13 @@ on_periodic_window_wake_up ()
         WindowEntry *entry = l->data;
         l = l->next;
 
+        // Check if current window is part of the same process
+        WnckWindow *active_window = wnck_screen_get_active_window (wnck_screen_get_default());
+        active_window = get_main_window (active_window);
+        if (window_entry_get_pid (entry) == wnck_window_get_pid (active_window)) {
+            continue;
+        }
+
         // Is it time to resume the process?
         if (entry->rule->resume_every &&
             now - entry->suspend_timestamp >= entry->rule->resume_every) {
