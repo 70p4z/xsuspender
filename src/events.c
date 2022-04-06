@@ -379,7 +379,7 @@ on_downclock_slice ()
             // Only downclock-resume the current process if it's not already
             // fully suspended by the other mechanism
             WnckWindow *window = wnck_window_get (entry->xid);
-            if (! entry->rule->send_signals ||
+            if (/*! entry->rule->send_signals ||*/
                 ! xsus_entry_find_for_window_rule (window, entry->rule, suspended_entries))
                 kill (pid, SIGCONT);
 
