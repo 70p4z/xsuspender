@@ -180,6 +180,9 @@ xsus_init ()
 
     xsus_init_event_handlers ();
 
+    // apply rules to all windows
+    startup_suspend_all_but_active();
+
     // Install exit signal handlers to exit gracefully
     signal (SIGINT,  xsus_exit);
     signal (SIGTERM, xsus_exit);

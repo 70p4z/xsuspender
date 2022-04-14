@@ -19,6 +19,7 @@ int  on_periodic_window_wake_up ();
 int  on_check_battery_powered ();
 int  on_downclock_slice ();
 int  on_update_downclocked_processes ();
+void startup_suspend_all_but_active(void);
 
 
 #endif  // XSUSPENDER_EVENT_HANDLERS_H

@@ -98,6 +98,32 @@ on_active_window_changed (WnckScreen *screen,
         xsus_window_suspend (prev_active_window);
 }
 
+void startup_suspend_all_but_active(void) {
+    WnckScreen* screen = wnck_screen_get_default ();
+    wnck_screen_force_update (screen);
+
+    WnckWindow *active_window = wnck_screen_get_active_window (screen);
+    pid_t active_pid = 0;
+    if (WNCK_IS_WINDOW(active_window)) {
+        active_pid = wnck_window_get_pid (active_window);
+    }
+
+    // Iterate over all windows and find processes to downclock
+    for (GList *w = wnck_screen_get_windows (screen); w ; w = w->next) {
+        WnckWindow *window = w->data;
+        // Skip non-matching windows
+        if (! WNCK_IS_WINDOW(window)) {
+            continue;
+        }
+        // don't suspend active window even if a rule matches
+        pid_t pid = wnck_window_get_pid (window);
+        if (pid == active_pid) {
+            continue;
+        }
+        xsus_window_suspend(window);
+    }
+}
+
 
 static inline
 pid_t
