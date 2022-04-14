@@ -133,8 +133,15 @@ xsus_window_suspend (WnckWindow *window)
     Rule *rule = xsus_window_get_rule (window);
 
     // No matching configuration rule, nothing to suspend
-    if (! rule)
+    if (! rule) {
+        g_debug ("No rule for window %#lx (%d): name(%s) instance(%s) group(%s)",
+                 wnck_window_get_xid (window),
+                 wnck_window_get_pid (window),
+                 wnck_window_get_name (window),
+                 wnck_window_get_class_instance_name (window),
+                 wnck_window_get_class_group_name (window));
         return;
+    }
 
     // Rule only applies on battery power and we are not
     if (! is_battery_powered && rule->only_on_battery)
