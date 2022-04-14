@@ -104,7 +104,7 @@ pid_t
 window_entry_get_pid (WindowEntry *entry)
 {
     WnckWindow *window = wnck_window_get (entry->xid);
-    return window && wnck_window_get_pid (window) == entry->pid ? entry->pid : 0;
+    return window && WNCK_IS_WINDOW(window) && wnck_window_get_pid (window) == entry->pid ? entry->pid : 0;
 }
 
 
@@ -142,7 +142,7 @@ on_periodic_window_wake_up ()
         // Check if current window is part of the same process
         WnckWindow *active_window = wnck_screen_get_active_window (wnck_screen_get_default());
         active_window = get_main_window (active_window);
-        if (window_entry_get_pid (entry) == wnck_window_get_pid (active_window)) {
+        if (WNCK_IS_WINDOW(active_window) && window_entry_get_pid (entry) == wnck_window_get_pid (active_window)) {
             continue;
         }
 
@@ -414,7 +414,7 @@ on_update_downclocked_processes ()
         Rule *rule = main_window_get_rule (window);
 
         // Skip non-matching windows
-        if (! rule || ! rule->downclock_on_battery)
+        if (! rule || ! rule->downclock_on_battery || ! WNCK_IS_WINDOW(window))
             continue;
 
         // Skip any windows/PIDs we already know about
